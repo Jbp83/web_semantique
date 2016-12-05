@@ -1,47 +1,11 @@
+<?php include("header.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset=utf-8 />
     <title>Pictionnary - Inscription</title>
 	<link rel="stylesheet" media="screen" href="css/styles.css" >  
-</head>
-<body>
-
-<h2>Inscrivez-vous</h2>
-<form class="inscription" action="req_inscription.php" method="post" name="inscription">
-    <!-- c'est quoi les attributs action et method ? 
-	L'attribut action permet de rediriger le formulaire apres l'appui du bouton submit. 
-	method permet de specifier le type d'envoyée des données soit get soit post -->
-    <!-- qu'y a-t-il d'autre comme possiblité que post pour l'attribut method ? La methode GET -->
-    <span class="required_notification">Les champs obligatoires sont indiqués par *</span>
-    <ul>
-        </li>
-        <li>
-            <label for="email">E-mail :</label>
-            <input required autofocus type="email" name="email" id="email"/>
-			
-
-
-            <!-- quelle est la différence entre les attributs name et id ?  un id est unique il permet de gerer le css avec le mot clé # et un name permet de recuperer la valeur du input par exemple $_GET['email']-->
-            <!-- c'est lequel qui doit être égal à l'attribut for du label ?  ID -->
-            <span class="form_hint">Format attendu "name@something.com"</span>
-        </li>
-		<li>  
-            <label for="mdp1">Mot de passe :</label>  
-            <input required  pattern="\w{6,8}" placeholder="Mot de passe" type="password" name="password" id="mdp1" pattern="regex" onkeyup="validateMdp2()" title = "Le mot de passe doit contenir de 6 à 8 caractères alphanumériques.">    
-            <!-- spécifiez l'expression régulière: le mot de passe doit être composé de 6 à 8 caractères alphanumériques -->  
-            <!-- quels sont les deux scénarios où l'attribut title sera affiché ? -->  
-            <!-- encore une fois, quelle est la différence entre name et id pour un input ? -->  
-            <span class="form_hint">De 6 à 8 caractères alphanumériques.</span>  
-        </li>  
-        <li>  
-            <label for="mdp2">Retapez mdp :</label>  
-            <input required placeholder="Retaper le mot de passe" type="password" id="mdp2" required onkeyup="validateMdp2()">  
- 
-            <!-- pourquoi est-ce qu'on a pas mis un attribut name ici ? -->  
-            <!-- quel scénario justifie qu'on ait ajouté l'écouter validateMdp2() à l'évènement onkeyup de l'input mdp1 ? -->  
-            <span class="form_hint">Les mots de passes doivent être égaux.</span>  
-            <script>  
+	 <script>  
                 validateMdp2 = function(e) {  
                     var mdp1 = document.getElementById('mdp1').value;  
                     var mdp2 = document.getElementById('mdp2').value;  
@@ -53,35 +17,8 @@
                         document.getElementById('mdp2').setCustomValidity('Les mots de passes doivent être égaux.');  
                     }  
                 }  
-            </script> 
-		
-		<li>
-		<label for="nom">Nom :</label>
-		<input autofocus type="text" name="nom" id="nom"/>
-			
-		</li>
-        <li>
-            <label for="prenom">Prénom :</label>
-            <input required placeholder="Prenom" type="text" name="prenom" id="prenom"/>
-        </li>
-		<li>
-            <label for="telephone">Téléphone :</label>
-            <input type="tel" name="telephone" id="telephone"/>
-        </li>
-		<li>
-            <label for="url">Site Web :</label>
-            <input  type="url" name="url" id="url"/>
-        </li>
-		   <li>
-           <label for="Sexe">Sexe :</label>    
-          homme    <input type="radio" name="sexe" value="H">
-		  femme    <input type="radio" name="sexe" value="F">
-		   </li>
-		
-		<li>  
-            <label for="birthdate">Date de naissance:</label>  
-            <input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()"/>  
-            <script>  
+				
+		  
                 computeAge = function(e) {  
                      
                         try{  
@@ -102,38 +39,9 @@
                          document.getElementById(age).value=""; 
                     }  
 				
-                }  
-            </script>  
-            <span class="form_hint">Format attendu "JJ/MM/AAAA"</span>  
-        </li>  
-        <li>  
-            <label for="age">Age:</label>  
-            <input type="number" name="age" id="age" disabled/>  
-            <!-- à quoi sert l'attribut disabled ?  A ne pas pouvoir modifier le input-->  
-        </li>  
-		<li>
-            <label for="taille">Taille(m):</label>
-            <input  type="range"  step="0.01"min="0" max="2.50" name="range" id="range"/>
-        </li>
-	
-		<li>
-            <label for="color">Couleur préféré :</label>
-            <input required type="color" name="prenom" id="color"/>
-        </li>
-		<li>  
-            <label for="profilepicfile">Photo de profil:</label>  
-            <input type="file" id="profilepicfile" onchange="loadProfilePic(this)"/>  
-            <!-- l'input profilepic va contenir le chemin vers l'image sur l'ordinateur du client -->  
-            <!-- on ne veut pas envoyer cette info avec le formulaire, donc il n'y a pas d'attribut name -->  
-            <span class="form_hint">Choisissez une image.</span>  
-            <input type="hidden" name="profilepic" id="profilepic"/>  
-            <!-- l'input profilepic va contenir l'image redimensionnée sous forme d'une data url -->   
-            <!-- c'est cet input qui sera envoyé avec le formulaire, sous le nom profilepic -->  
-            <canvas id="preview" width="0" height="0"></canvas>  
-            <!-- le canvas (nouveauté html5), c'est ici qu'on affichera une visualisation de l'image. -->  
-            <!-- on pourrait afficher l'image dans un élément img, mais le canvas va nous permettre également   
-            de la redimensionner, et de l'enregistrer sous forme d'une data url-->  
-            <script>  
+                }
+
+ 
                 loadProfilePic = function (e) {  
                     // on récupère le canvas où on affichera l'image  
                     var canvas = document.getElementById("preview");  
@@ -190,7 +98,108 @@
                     // on charge l'image pour de vrai, lorsque ce sera terminé le callback loadProfilePic sera appelé.  
                     reader.readAsDataURL(file);  
                 }  
-            </script>  
+           				
+         		
+				
+      </script> 
+	
+</head>
+<body>
+
+<h2>Inscrivez-vous</h2>
+
+<form class="inscription" action="req_inscription.php" method="post" name="inscription">
+    <!-- c'est quoi les attributs action et method ? 
+	L'attribut action permet de rediriger le formulaire apres l'appui du bouton submit. 
+	method permet de specifier le type d'envoyée des données soit get soit post -->
+    <!-- qu'y a-t-il d'autre comme possiblité que post pour l'attribut method ? La methode GET -->
+    <span class="required_notification">Les champs obligatoires sont indiqués par *</span>
+    <ul>
+        </li>
+        <li>
+            <label for="email">E-mail :</label>
+            <input required autofocus type="email" name="email" id="email"/>
+			
+
+
+            <!-- quelle est la différence entre les attributs name et id ?  un id est unique il permet de gerer le css avec le mot clé # et un name permet de recuperer la valeur du input par exemple $_GET['email']-->
+            <!-- c'est lequel qui doit être égal à l'attribut for du label ?  ID -->
+            <span class="form_hint">Format attendu "name@something.com"</span>
+        </li>
+		<li>  
+            <label for="mdp1">Mot de passe :</label>  
+            <input required  pattern="\w{6,8}" placeholder="Mot de passe" type="password" name="password" id="mdp1" pattern="regex" onkeyup="validateMdp2()" title = "Le mot de passe doit contenir de 6 à 8 caractères alphanumériques.">    
+            <!-- spécifiez l'expression régulière: le mot de passe doit être composé de 6 à 8 caractères alphanumériques -->  
+            <!-- quels sont les deux scénarios où l'attribut title sera affiché ? -->  
+            <!-- encore une fois, quelle est la différence entre name et id pour un input ? -->  
+            <span class="form_hint">De 6 à 8 caractères alphanumériques.</span>  
+        </li>  
+        <li>  
+            <label for="mdp2">Retapez mdp :</label>  
+            <input required placeholder="Retaper le mot de passe" type="password" id="mdp2" required onkeyup="validateMdp2()">  
+ 
+            <!-- pourquoi est-ce qu'on a pas mis un attribut name ici ? -->  
+            <!-- quel scénario justifie qu'on ait ajouté l'écouter validateMdp2() à l'évènement onkeyup de l'input mdp1 ? -->  
+            <span class="form_hint">Les mots de passes doivent être égaux.</span>  
+           
+		
+		<li>
+		<label for="nom">Nom :</label>
+		<input autofocus type="text" name="nom" id="nom"/>
+			
+		</li>
+        <li>
+            <label for="prenom">Prénom :</label>
+            <input required placeholder="Prenom" type="text" name="prenom" id="prenom"/>
+        </li>
+		<li>
+            <label for="telephone">Téléphone :</label>
+            <input type="tel" name="telephone" id="telephone"/>
+        </li>
+		<li>
+            <label for="url">Site Web :</label>
+            <input  type="url" name="url" id="url"/>
+        </li>
+		   <li>
+           <label for="Sexe">Sexe :</label>    
+          homme    <input type="radio" name="sexe" value="H">
+		  femme    <input type="radio" name="sexe" value="F">
+		   </li>
+		
+		<li>  
+            <label for="birthdate">Date de naissance:</label>  
+            <input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()"/>  
+            
+            <span class="form_hint">Format attendu "JJ/MM/AAAA"</span>  
+        </li>  
+        <li>  
+            <label for="age">Age:</label>  
+            <input type="number" name="age" id="age" disabled/>  
+            <!-- à quoi sert l'attribut disabled ?  A ne pas pouvoir modifier le input-->  
+        </li>  
+		<li>
+            <label for="taille">Taille(m):</label>
+            <input  type="range"  step="0.01"min="0" max="2.50" name="range" id="range"/>
+        </li>
+	
+		<li>
+            <label for="color">Couleur préféré :</label>
+            <input required type="color" name="couleur" id="color"/>
+        </li>
+		<li>  
+            <label for="profilepicfile">Photo de profil:</label>  
+            <input type="file" id="profilepicfile" onchange="loadProfilePic(this)"/>  
+            <!-- l'input profilepic va contenir le chemin vers l'image sur l'ordinateur du client -->  
+            <!-- on ne veut pas envoyer cette info avec le formulaire, donc il n'y a pas d'attribut name -->  
+            <span class="form_hint">Choisissez une image.</span>  
+            <input type="hidden" name="profilepic" id="profilepic"/>  
+            <!-- l'input profilepic va contenir l'image redimensionnée sous forme d'une data url -->   
+            <!-- c'est cet input qui sera envoyé avec le formulaire, sous le nom profilepic -->  
+            <canvas id="preview" width="0" height="0"></canvas>  
+            <!-- le canvas (nouveauté html5), c'est ici qu'on affichera une visualisation de l'image. -->  
+            <!-- on pourrait afficher l'image dans un élément img, mais le canvas va nous permettre également   
+            de la redimensionner, et de l'enregistrer sous forme d'une data url-->  
+            
         </li>
 		
         <li>
@@ -198,5 +207,6 @@
         </li>
     </ul>
 </form>
+
 </body>
 </html>

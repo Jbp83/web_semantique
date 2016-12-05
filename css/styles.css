@@ -7,6 +7,8 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 .form_hint, .required_notification {font-size: 11px;}
 
 /* === List Styles === */
+
+
 .inscription ul {
     width:750px;
     list-style-type:none;

@@ -1,11 +1,11 @@
 <?php  
-  
+
 // récupérer les éléments du formulaire  
 // et se protéger contre l'injection MySQL (plus de détails ici: http://us.php.net/mysql_real_escape_string)  
 $email=stripslashes($_POST['email']); 
 $password=stripslashes($_POST['password']);  
 $nom=stripslashes($_POST['nom']);  
-$prenom=stripslashes($_POST['prenom']);  
+$prenom=stripslashes($_POST['prenom']); 
 $tel=stripslashes($_POST['tel']);  
 $website=stripslashes($_POST['website']);  
 $sexe='';  
@@ -15,7 +15,9 @@ if (array_key_exists('sexe',$_POST)) {
 $birthdate=stripslashes($_POST['birthdate']);  
 $ville=stripslashes($_POST['ville']);  
 $taille=stripslashes($_POST['taille']);  
-$couleur=stripslashes($_POST['couleur']);  
+$couleur=stripslashes($_POST['couleur']);
+list($vraicouleur)=explode("#",$couleur);
+echo $vraicouleur;
 $profilepic=stripslashes($_POST['profilepic']);  
   
 try {  
@@ -29,27 +31,33 @@ try {
     $nb = $columns['nb'];
 	echo $nb;
 	
-    if ($nb>1) {
+    if ($nb>=1) {
 			
-         header("Location: inscription.php");    
+        $temp = urlencode("un utilisateur avec cette adresse email existe déjà");
+        foreach ($_POST as $key => $value) {
+            $temp = $temp."&".$key."=".$value;
+        }
+        header("Location: inscription.php?erreur=".$temp); 
         // utiliser à bon escient la méthode htmlspecialchars http://www.php.net/manual/fr/function.htmlspecialchars.php          // et/ou la méthode urlencode http://php.net/manual/fr/function.urlencode.php  
 	}  
     else {  
         // Tenter d'inscrire l'utilisateur dans la base  
         $sql = $dbh->prepare("INSERT INTO users (email, password, nom, prenom, tel, website, sexe, birthdate, ville, taille, couleur, profilepic) "  
                 . "VALUES (:email, :password, :nom, :prenom, :tel, :website, :sexe, :birthdate, :ville, :taille, :couleur, :profilepic)");  
-        $sql->bindValue(":email", $email);  
-		  $sql->bindValue(":password", $password);  
-		    $sql->bindValue(":nom", $nom,PDO::PARAM_NULL);  
-			  $sql->bindValue(":prenom", $prenom);  
-			    $sql->bindValue(":tel", $tel);  
-				  $sql->bindValue(":website", $website);  
-				   $sql->bindValue(":sexe", $sexe);  
-			    $sql->bindValue(":birthdate", $birthdate);  
-				  $sql->bindValue(":ville", $ville);
-				  $sql->bindValue(":taille", $taille);  
-			    $sql->bindValue(":couleur", $couleur);  
-				  $sql->bindValue(":profilepic", $profilepic);
+        $sql->bindValue(":email", $email, PDO::PARAM_STR);  
+		  $sql->bindValue(":password", $password, PDO::PARAM_STR);  
+		    $sql->bindValue(":nom", $nom, PDO::PARAM_STR);  
+			  $sql->bindValue(":prenom", $prenom, PDO::PARAM_STR);  
+			    $sql->bindValue(":tel", $tel, PDO::PARAM_STR);  
+				  $sql->bindValue(":website", $website, PDO::PARAM_STR);  
+				   $sql->bindValue(":sexe", $sexe, PDO::PARAM_STR);  
+			    $sql->bindValue(":birthdate", $birthdate, PDO::PARAM_STR);  
+				  $sql->bindValue(":ville", $ville, PDO::PARAM_STR);
+				  $sql->bindValue(":taille", $taille, PDO::PARAM_INT);  
+				  
+				  
+			    $sql->bindValue(":couleur", $couleur, PDO::PARAM_STR);  
+				  $sql->bindValue(":profilepic", $profilepic, PDO::PARAM_LOB);
 				  
 		
       
@@ -74,9 +82,26 @@ try {
             }  
             else {  
                 // on récupère la ligne qui nous intéresse avec $sql->fetch(),   
-				$columns = $sql->fetch();
-				$prenom = $columns['prenom'];
-                $_SESSION["prenom"]=$prenom;
+				$columns = $sql->fetch(PDO::FETCH_ASSOC);
+				
+				$_SESSION["id"]=$columns['id'];
+				$_SESSION["email"] = $columns["email"];
+				//echo "email:".$_SESSION["email"];
+                $_SESSION["password"] = $columns["password"];
+                $_SESSION["nom"] = $columns["nom"];
+                $_SESSION["prenom"] = $columns["prenom"];
+                $_SESSION["tel"] = $columns["tel"];
+                $_SESSION["website"] = $columns["website"];
+                $_SESSION["sexe"] = $columns["sexe"];
+                $_SESSION["birthdate"] = $columns["birthdate"];
+                $_SESSION["ville"] = $columns["ville"];
+                $_SESSION["taille"] = $columns["taille"];
+                $_SESSION["couleur"] = $columns["couleur"];
+                $_SESSION["profilepic"] = $columns["profilepic"];
+				
+               
+			
+			
             }  
   
              header("Location: main.php?");
