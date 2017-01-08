@@ -1,16 +1,22 @@
-<?php  
-// on démarre la session, si l'utilisateur n'est pas connecté alors on redirige vers la page main.php.  
-//session_start();  
-if(!isset($_SESSION['prenom'])) {  
-    header("Location: main.php");  
-}  
-?>  
+
 <!DOCTYPE html>  
 <html>  
 <head>  
     <meta charset=utf-8 />  
     <title>Pictionnary</title>  
     <link rel="stylesheet" media="screen" href="css/styles.css" >  
+
+<?php
+    include "header.php";
+
+// on démarre la session, si l'utilisateur n'est pas connecté alors on redirige vers la page main.php.  
+if(!isset($_SESSION['prenom'])) {  
+    header("Location: main.php");  
+}  
+?>
+
+
+
     <script>  
   
         // les quatre tailles de pinceau possible.  
@@ -22,59 +28,85 @@ if(!isset($_SESSION['prenom'])) {
         // le tableau de commandes de dessin à envoyer au serveur lors de la validation du dessin  
         var drawingCommands = [];  
   
-        var setColor = function() {  
+        var setColor = function() 
+		{  
             // on récupère la valeur du champs couleur  
-            color = document.getElementById('color').value;  
+            color = document.getElementById('couleur').value;  
             console.log("color:" + color);  
         }  
   
-        var setSize = function() {  
-            // ici, récupèrez la taille dans le tableau de tailles, en fonction de la valeur choisie dans le champs taille.  
+        var setSize = function() 
+		{  
+            // ici, récupèrez la taille dans le tableau de tailles, en fonction de la valeur choisie dans le champs taille.
+			size =  sizes[document.getElementById('taille').value];
             console.log("size:" + size);  
         }  
   
-        window.onload = function() {  
+        window.onload = function() 
+		{  
             var canvas = document.getElementById('myCanvas');  
-            canvas.width = 400;  
-            canvas.height= 400;  
+            canvas.width = 800;  
+            canvas.height= 600;  
             var context = canvas.getContext('2d');  
   
             setSize();  
             setColor();  
-            document.getElementById('size').onchange = setSize;  
-            document.getElementById('color').onchange = setColor;  
+            document.getElementById('taille').onchange = setSize;  
+            document.getElementById('couleur').onchange = setColor;  
   
             var isDrawing = false;  
   
-            var startDrawing = function(e) {  
+            var startDrawing = function(e) 
+			{  
                 console.log("start");  
-                // crér un nouvel objet qui représente une commande de type "start", avec la position, la couleur  
+                // créer un nouvel objet qui représente une commande de type "start", avec la position, la couleur  
                 var command = {};  
-                command.command="start";  
-                command.x=e.x;  
-                ...  
+                command.command="start";
+				command.x=e.layerX;
+				command.y=e.layerY;
+				command.size = size/2;
+				command.color = color;
                 //c'est équivalent à:   
-                command = {"command":"start", "x": e.x, ...};  
+                //command = {"command":"start", "x": e.x, ...};  
   
                 // Ce genre d'objet Javascript simple est nommé JSON. Pour apprendre ce qu'est le JSON, c.f. http://blog.xebia.fr/2008/05/29/introduction-a-json/  
   
                 // on l'ajoute à la liste des commandes  
                 drawingCommands.push(command);  
   
-                // ici, dessinez un cercle de la bonne couleur, de la bonne taille, et au bon endroit.   
+                // ici, dessinez un cercle de la bonne couleur, de la bonne taille, et au bon endroit. 
+				context.beginPath();
+				context.fillStyle = color;
+				context.arc(e.layerX, e.layerY, size / 2, 0, 2 * Math.PI);
+				context.fill();
+				context.closePath();
   
                 isDrawing = true;  
             }  
   
-            var stopDrawing = function(e) {  
-                console.log("stop");  
+            var stopDrawing = function(e) 
+			{  
+                console.log("stop");
                 isDrawing = false;  
             }  
   
-            var draw = function(e) {  
-                if(isDrawing) {  
-                    // ici, créer un nouvel objet qui représente une commande de type "draw", avec la position, et l'ajouter à la liste des commandes.  
+            var draw = function(e) 
+			{  
+                if(isDrawing) 
+				{  
+                    // ici, créer un nouvel objet qui représente une commande de type "draw", avec la position, et l'ajouter à la liste des commandes.
+					var command = {};
+					command.command="draw";
+					command.x=e.layerX;
+					command.y=e.layerY;
+					drawingCommands.push(command);
                     // ici, dessinez un cercle de la bonne couleur, de la bonne taille, et au bon endroit.   
+					context.beginPath();
+					context.fillStyle = color;
+					context.arc(e.layerX, e.layerY, size / 2, 0, 2 * Math.PI);
+					context.fill();
+					context.closePath();
+					
                 }  
             }  
   
@@ -83,35 +115,47 @@ if(!isset($_SESSION['prenom'])) {
             canvas.onmouseup = stopDrawing;  
             canvas.onmousemove = draw;  
   
-            document.getElementById('restart').onclick = function() {  
+            document.getElementById('restart').onclick = function()
+			{  
                 console.log("clear");  
-                // ici ajouter à la liste des commandes une nouvelle commande de type "clear"  
-                // ici, effacer le context, grace à la méthode clearRect.  
+                // ici ajouter à la liste des commandes une nouvelle commande de type "clear"
+				var command = {};
+				command.command="clear";
+				drawingCommands.push(command);
+                // ici, effacer le context, grace à la méthode clearRect.
+				context.clearRect(0, 0, canvas.width, canvas.height);
             };  
   
-            document.getElementById('validate').onclick = function() {  
+            document.getElementById('validate').onclick = function() 
+			{  
                 // la prochaine ligne transforme la liste de commandes en une chaîne de caractères, et l'ajoute en valeur au champs "drawingCommands" pour l'envoyer au serveur.  
                 document.getElementById('drawingCommands').value = JSON.stringify(drawingCommands);  
   
-                // ici, exportez le contenu du canvas dans un data url, et ajoutez le en valeur au champs "picture" pour l'envoyer au serveur.  
+                // ici, exportez le contenu du canvas dans un data url, et ajoutez le en valeur au champs "picture" pour l'envoyer au serveur.
+				document.getElementById('picture').value = canvas.toDataURL();				
             };  
         };  
     </script>  
 </head>  
 <body>  
   
+<div class ="container">
 <canvas id="myCanvas"></canvas>  
-  
-<form name="tools" action="req_paint.php" method="post">  
+    <div id="boutonDraw">
+<form name="tools" action="req_paint.php" method="post" >  
     <!-- ici, insérez un champs de type range avec id="size", pour choisir un entier entre 0 et 4) -->  
-    <!-- ici, insérez un champs de type color avec id="color", et comme valeur l'attribut  de session couleur (à l'aide d'une commande php echo).) -->  
+    <!-- ici, insérez un champs de type color avec id="color", et comme valeur l'attribut  de session couleur (à l'aide d'une commande php echo).) -->
+	<input type="range" id="taille" min="0" max="3" step="1" value="0"/>
+    <br>
+	<input type="color" id="couleur" value=<?php echo '"#'.$_SESSION['couleur'].'"'?>/>
   
     <input id="restart" type="button" value="Recommencer"/>  
     <input type="hidden" id="drawingCommands" name="drawingCommands"/>  
-    <!-- à quoi servent ces champs hidden ? -->  
+    <!-- à quoi servent ces champs hidden ? post le dessin du formulaire-->  
     <input type="hidden" id="picture" name="picture"/>  
     <input id="validate" type="submit" value="Valider"/>  
 </form>  
-  
+    </div>
+ </div>
 </body>  
 </html>
