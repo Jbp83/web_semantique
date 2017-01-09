@@ -10,13 +10,17 @@
 		include "header.php";
 	?>
 </header>
-<div class = "container">
-  <div id="listeDessin">
+
 <?php
 	if(isset($_SESSION['email']))
 	{
 	try
 	{
+    ?>
+
+    <div class = "container">
+      <div id="listeDessin">
+        <?php
 		$dbh = new PDO('mysql:host=localhost;dbname=pictionnary', 'test', 'test');
 
 		$sql = $dbh->prepare("SELECT id FROM drawings WHERE u_id= :uid");
