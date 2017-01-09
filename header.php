@@ -48,7 +48,6 @@
 </nav>
 
 <?php
-
 }
 	else {
 ?>
@@ -81,10 +80,8 @@
                         </div>
 
                <button type="submit" href="" class="btn btn-primary">Login</button>
-
       </form>
-
     </div>
   </div>
 </nav>
-
+<?php } ?>
