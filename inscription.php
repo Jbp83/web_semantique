@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>  
 <html>  
 <head>  
@@ -181,6 +182,7 @@
 			<div class="col-sm-10">
             <input class="form-control" type="hidden" name="profilepic" id="profilepic"/> 
 			</div>
+
             <!-- l'input profilepic va contenir l'image redimensionnée sous forme d'une data url -->   
             <!-- c'est cet input qui sera envoyé avec le formulaire, sous le nom profilepic -->  
             <canvas id="preview" width="0" height="0"></canvas>  
@@ -267,3 +269,5 @@
 </div>
 </body>  
 </html> 
+            
+    

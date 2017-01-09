@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <!DOCTYPE html>  
 <html>  
@@ -20,11 +21,11 @@ if(!isset($_SESSION['prenom'])) {
     <script>  
   
         // les quatre tailles de pinceau possible.  
-        var sizes=[8,20,44,90];  
+        var sizes=[8,20,44,90];
         // la taille et la couleur du pinceau  
-        var size, color;  
+        var size, color;
         // la dernière position du stylo  
-        var x0, y0;  
+        var x0, y0;
         // le tableau de commandes de dessin à envoyer au serveur lors de la validation du dessin  
         var drawingCommands = [];  
   
@@ -159,3 +160,4 @@ if(!isset($_SESSION['prenom'])) {
  </div>
 </body>  
 </html>
+

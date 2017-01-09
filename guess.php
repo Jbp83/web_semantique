@@ -5,6 +5,7 @@
     <meta charset=utf-8 />
     <title>Pictionnary</title>
     <link rel="stylesheet" media="screen" href="css/styles.css" >
+<<<<<<< HEAD
     <?php
       include "header.php";
       if(!isset($_SESSION['sid']))
@@ -117,3 +118,4 @@
 </div>
 </body>
 </html>
+
