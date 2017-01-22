@@ -5,7 +5,6 @@
     <meta charset=utf-8 />
     <title>Pictionnary</title>
     <link rel="stylesheet" media="screen" href="css/styles.css" >
-<<<<<<< HEAD
     <?php
       include "header.php";
       if(!isset($_SESSION['sid']))
@@ -14,12 +13,14 @@
       }
       else
       {
+
        // ici, récupérer la liste des commandes dans la table DRAWINGS avec l'identifiant $_GET['id']
        // l'enregistrer dans la variable $commands
       	$dbh = new PDO('mysql:host=localhost;dbname=pictionnary', 'test', 'test');
-      	$sql = $dbh->prepare("SELECT commandes FROM drawings WHERE u_id= :uid AND id= :id");
-      	$sql->bindValue(":uid", $_SESSION['sid']);
+      	$sql = $dbh->prepare("SELECT commandes FROM drawings WHERE id= :id");
+      	//$sql->bindValue(":uid", $_SESSION['sid']);
       	$sql->bindValue(":id", $_GET['id']);
+        $idimage= $_GET['id'];
       	$sql->execute();
       	if($sql->rowCount() < 1)
       	{
@@ -110,12 +111,24 @@
 
         };
 
+
+
+
     </script>
 </head>
 <body>
+
 <div class ="container">
+
+  <form id="deviner" method="post" action="req_guess.php">
+  deviner:   <input type="text" name="mot" />
+    <input type="hidden" name="idimage" value="<?php echo $idimage; ?>" />
+    <input type="submit"  value="valider" />
+
+  </form>
 <canvas id="myCanvas"></canvas>
+
+
 </div>
 </body>
 </html>
-

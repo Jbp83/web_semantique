@@ -7,12 +7,18 @@ span
 
 body {
 background-image:url(../images/background.jpg);
-margin:0;
+
 }
 
 .container{
+	padding-top: 2em;
 	background: white;
 	border-radius: 30px;
+	padding-bottom: 2em;
+}
+#deviner{
+	margin-left: 38%;
+	margin-right: auto;
 }
 
 #listeDessin{

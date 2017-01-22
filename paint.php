@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset=utf-8 />
@@ -152,7 +152,10 @@ if(!isset($_SESSION['prenom'])) {
     <input type="hidden" id="drawingCommands" name="drawingCommands"/>
     <!-- à quoi servent ces champs hidden ? post le dessin du formulaire-->
     <input type="hidden" id="picture" name="picture"/>
-    <input id="validate" type="submit" value="Valider"/>
+    <input type="text" required  name="mot" placeholder="Mot à faire deviner"/>
+      <input type="text"  required name="destinataire" placeholder="Email du destinataire"/>
+      <input id="validate" type="submit" value="Valider"/>
+
 </form>
     </div>
  </div>
